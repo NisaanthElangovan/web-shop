@@ -1,0 +1,32 @@
+.chatbody{
+    height: 100%;
+    width: 100%;
+    overflow-y: none;
+}
+
+.chatFooter{
+    overflow: none;
+    background-color: #d2dedf;
+    position: fixed;
+    width:100%;
+    bottom: 0;
+    left: 0;
+}
+
+.chatUl {
+    width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position:fixed;
+    top:0px; /* start 470px below top left corner */
+    bottom:70px; /* This is the trick - specify bottom instead of height */
+    left:0px;
+  }
+
+.first:first-child {
+      margin-top: 58px;
+  }
+
+  .chatInput{
+      color: white;
+  }

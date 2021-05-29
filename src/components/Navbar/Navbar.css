@@ -1,0 +1,23 @@
+nav{
+    background-color: transparent;
+    position: absolute;
+}
+
+nav .brand-logo {
+    position: absolute;
+    color: black;
+    display: inline-block;
+    font-size: 10rem;
+    padding: 0;
+}
+
+.nav-wrapper > a{
+    font-size: 22px;
+    padding-left: 40px;
+}
+
+a.button-collapse {
+    margin-left: -18px;
+}
+
+

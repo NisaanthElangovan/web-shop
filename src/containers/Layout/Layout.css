@@ -1,0 +1,52 @@
+.container{
+    height: 400px;
+}
+
+.box{
+    margin-top: 20px;
+}
+
+.imageloader{
+    background: url('../../Assets/images/onlineshop.jpg') no-repeat center center;
+    width:100%;
+    height:750px;
+}
+
+
+@media only screen and (max-width: 480px){
+    .firstbox{
+        margin-top:25px !important;
+    }
+    
+    .secondbox{
+        margin-top: 25px !important;
+    }
+        .thirdbox {
+        margin-top: 25px !important;
+    }
+        .fourthbox{
+        margin-top: 25px !important;
+    }
+
+    .imageloader{
+        background-size: 600px 500px !important;
+        height: 300px;
+    }
+    
+}
+
+.modal,.modal-footer{
+    background-color: white !important;
+    color:black;
+}
+
+.modal{
+    top:25% !important;
+    box-shadow: 10px 5px 20px black !important;
+}
+
+@media only screen and (max-width: 768px){
+     .imageloader{
+        background-size: 800px 400px;
+    }
+}
