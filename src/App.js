@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import Layout from './containers/Layout/Layout';
+import ContentModal from './components/ContentModal/ContentModal';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
-import Chat from './components/Chat/Chat';
 import jwt_decode from 'jwt-decode';
 import moment from 'moment';
 
@@ -41,9 +41,9 @@ class App extends Component {
           <Route exact path='/' component={Layout}/>
           <Route
             exact
-            path='/chat'
+            path='/'
             render={(props) => (this.requireLogin()
-            ? (<Chat {...props}/>)
+            ? (<ContentModal {...props}/>)
             : (<Redirect to='/'/>))}/>
         </Switch>
       </BrowserRouter>

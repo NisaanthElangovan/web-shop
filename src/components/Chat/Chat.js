@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import socketIOClient from "socket.io-client";
 import './Chat.css';
-import axios from 'axios';
-import moment from 'moment';
-// import jwt_decode from 'jwt-decode';
+// import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import {ApiUrl} from '../../config';
 
 class Chat extends Component {
@@ -13,24 +12,31 @@ class Chat extends Component {
 
         this.state = {
             chat: [],
-            chatButtonDisable: true
+            chatButtonDisable: true,
+            userText:'',
+            clientText:''
         };
 
-        // this.endpoint = ApiUrl;
+        this.endpoint = ApiUrl;
         this.chatSubmit = this
             .chatSubmit
             .bind(this);
-        // this.token = sessionStorage.getItem('main.token');
-        // this.decoded = jwt_decode(this.token);
+        this.token = sessionStorage.getItem('main.token');
+        this.decoded = jwt_decode(this.token);
     }
 
     chatSubmit() {
         const socket = socketIOClient(this.endpoint);
+        this.setState({userText: this.chatInputText.value});
         socket.emit("clientMsg", {
             text: this.chatInputText.value,
             name: this.decoded.name,
-            date: moment().format('llll')
         });
+        socket.on('clientMsg', (result) => {
+            console.log("data from socket", result.text);
+            this.setState({clientText: result.text});
+        });
+
         this.chatInputText.value = "";
     }
 
@@ -40,65 +46,17 @@ class Chat extends Component {
         }
     }
 
-    componentWillMount() {
-        const socket = socketIOClient(this.endpoint);
-        socket.on("FromAPI", (res) => {
-            console.log(res);
-        });
-
-        socket.emit('join', {
-            room: 'roomA'
-        }, (callback) => {
-            console.log('callback', callback);
-        });
-
-        socket.on('ack', (data) => {
-            console.log('ack', data);
-            let ack = {
-                ...data
-            };
-            this
-                .state
-                .chat
-                .push(ack);
-            this.setState({
-                chat: this.state.chat
-            }, () => {
-                console.log('this.state.chat', this.state.chat);
-            });
-        });
-
-        axios({
-            method: 'post',
-            url: ApiUrl + '/api/chat',
-            data: null,
-            headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('main.token')}`,
-                'Access-Control-Allow-Origin': '*'
-            }
-        }).then((res) => {
-            console.log(res);
-            if (res.data.auth) {
-                this
-                    .state
-                    .chat
-                    .push(...res.data.data);
-                this.setState({chat: this.state.chat});
-            } else {
-                this
-                    .props
-                    .history
-                    .replace('/');
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
-
-    }
-
     render() {
         return (
             <div className='chatbody'>
+                <div className='chatHeader'>
+                    {this.state.userText!=='' &&
+                    <p align='right'>{this.state.userText}  <i className="material-icons prefix">account_circle</i></p>
+                    }
+                    {this.state.clientText!=='' &&
+                    <p align='left'><i className="material-icons prefix">adb</i>  {this.state.clientText}</p>
+                    }
+                </div>
                 <div className='chatUl row'>
                     {this.state.chat.length > 0
                         ? this

@@ -200,26 +200,29 @@ class Layout extends Component {
             customerMobile: this.refs.contentModal.customerMobile.value
         };
 
-        if (this.state.custName && this.state.custMobile) {
-            axios({
-                method: 'post',
-                url: ApiUrl + '/api/custDetails',
-                data: this.customerData,
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                }
-            }).then((res) => {
-                this.setState({spinner: false});
-                console.log(res);
-            }).catch((err) => {
-                this.setState({spinner: false});
-                toastr.error(err);
-                console.log(err);
-                $('#chatModal').modal('open');
-            });
-        }
+        // if (this.state.custName && this.state.custMobile) {
+        //     axios({
+        //         method: 'post',
+        //         url: ApiUrl + '/api/custDetails',
+        //         data: this.customerData,
+        //         headers: {
+        //             'Access-Control-Allow-Origin': '*'
+        //         }
+        //     }).then((res) => {
+        //         this.setState({spinner: false});
+        //         console.log(res);
+        //     }).catch((err) => {
+        //         this.setState({spinner: false});
+        //         toastr.error(err);
+        //         console.log(err);
+        //         $('#chatModal').modal('open');
+        //     });
+        // }
         
+        toastr.success("Order Submitted succesfully!");
         $('#itemDetails').modal('close');
+        this.setState({spinner: false});
+        $('#chatModal').modal('open');
     }
 
 
@@ -326,15 +329,11 @@ class Layout extends Component {
                     sessionStorage.setItem('main.token', res.data.token);
                     toastr.success(res.data.data);
                     $('#login').modal('close');
-                    this
-                        .props
-                        .history
-                        .replace('/chat');
+                    $('#itemDetails').modal('open');
                 } else {
                     toastr.error(res.data.data);
                     $('#login').modal('open');
                 }
-                $('#itemDetails').modal('open');
             }).catch((err) => {
                 this.setState({spinner: false});
                 toastr.error(err);
@@ -359,7 +358,6 @@ class Layout extends Component {
             loginEmail: false,
             loginPassword: false
         });
-        $('#itemDetails').modal('open');
     }
 
     registerValidation(e) {
@@ -477,6 +475,7 @@ class Layout extends Component {
                     toastr.success(res.data.data);
                     this.setState({registerEmailClass: 'valid'});
                     $('#register').modal('close');
+                    $('#login').modal('open');
                 } else {
                     $('#register').modal('open');
                     this.setState({registerEmailClass: 'invalid'});
